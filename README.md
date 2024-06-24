@@ -25,7 +25,8 @@ Make sure to have the following dependencies installed:
 3. Drap and drop in resources folder and add in server.cfg.
 4. Setup the config as per your framework.
 5. Add the item image in image folder to your inventory.
-6. Add the item 
+6. Add the item
+ 
 [qbcore]
 ```lua
 ['bodycam'] 		= {['name'] = 'bodycam', 			    ['label'] = 'Bodycam', 		['weight'] = 500, 		['type'] = 'item', 		['image'] = 'bodycam.png', 	    ['unique'] = true, 	    ['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'Bodycam for authorized personnel only'},
