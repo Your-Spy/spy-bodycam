@@ -38,3 +38,17 @@ Make sure to have the following dependencies installed:
 ```lua
 ['bodycam'] = { label = 'Bodycam', weight = 500, stack = false, close = true },
 ```
+## Features
+- Overlay GTA6 bodycam like.
+- Watch other player bodycam.
+- Decoy ped creation when watching.
+- Multiple job support.
+- Custom prop included with the script.
+- Dedicated cam position for walking / car.
+
+## Feedback and Support
+I welcome any feedback or suggestions. If you encounter any issues or need support, please don't hesitate to reach out on the Discord server mentioned above.
+
+Happy roleplaying!
+
+
