@@ -33,5 +33,5 @@ Make sure to have the following dependencies installed:
 ```
 ### ox_inv
 ```lua
-	['bodycam'] = { label = 'Bodycam', weight = 500, stack = false, close = true },
+['bodycam'] = { label = 'Bodycam', weight = 500, stack = false, close = true },
 ```
