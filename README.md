@@ -24,8 +24,10 @@ Make sure to have the following dependencies installed:
 2. Install the required dependencies.
 3. Drap and drop in resources folder and add in server.cfg.
 4. Setup the config as per your framework.
-5. Add the item image in image folder to your inventory.
-6. Add the item
+5. Add the item image to your inventory.
+(https://i.imgur.com/CuSyeZT.png)
+
+7. Add the item
  
 ### qbcore
 ```lua
