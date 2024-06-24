@@ -8,3 +8,10 @@ For any assistance or questions, feel free to join my Discord server: [https://d
 The bodycam script is designed to work seamlessly with the following frameworks:
 - QBCore
 - ESX [Note:- ESX Support is only for OX Inv and Target. You can make make edits to support other stuff]
+
+## Dependencies
+Make sure to have the following dependencies installed:
+- `ox_lib`
+- `qb/ox-inventory`
+- `qb/ox-target`
+- `qb-clothing/illenium_appearance [OPTIONAL]`
