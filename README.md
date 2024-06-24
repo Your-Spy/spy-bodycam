@@ -8,7 +8,7 @@ For any assistance or questions, feel free to join my Discord server: [https://d
 The bodycam script is designed to work seamlessly with the following frameworks:
 - QBCore
 - Qbox
-- ESX [Note:- ESX Support is only for OX Inv and Target. You can make make edits to support other stuff]
+- ESX [Note:- ESX Support is only for OX Inv and Target. You can make edits to support other stuff]
 
 ## Dependencies
 Make sure to have the following dependencies installed:
@@ -17,23 +17,24 @@ Make sure to have the following dependencies installed:
 - `qb/ox-target`
 - `qb-clothing/illenium_appearance [OPTIONAL]`
 
-## Preview - [`youtube`](https://youtu.be/n4S_a9JKzFw)
+## Preview - [YouTube](https://youtu.be/n4S_a9JKzFw)
 
 ## How to Install
 1. Ensure you have one of the compatible frameworks (QBCore, Qbox, or ESX) installed on your roleplay server.
 2. Install the required dependencies.
-3. Drap and drop in resources folder and add in server.cfg.
+3. Drag and drop in resources folder and add in server.cfg.
 4. Setup the config as per your framework.
 5. Add the item image to your inventory.
-(https://i.imgur.com/CuSyeZT.png)
+
+![Bodycam Image](https://i.imgur.com/CuSyeZT.png)
 
 7. Add the item
- 
-### qbcore
+
+### QBCore
 ```lua
-['bodycam'] 		= {['name'] = 'bodycam', 			    ['label'] = 'Bodycam', 		['weight'] = 500, 		['type'] = 'item', 		['image'] = 'bodycam.png', 	    ['unique'] = true, 	    ['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'Bodycam for authorized personnel only'},
+['bodycam'] = {['name'] = 'bodycam', ['label'] = 'Bodycam', ['weight'] = 500, ['type'] = 'item', ['image'] = 'bodycam.png', ['unique'] = true, ['useable'] = true, ['shouldClose'] = true, ['combinable'] = nil, ['description'] = 'Bodycam for authorized personnel only'},
 ```
-### ox_inv
+### OX
 ```lua
 ['bodycam'] = { label = 'Bodycam', weight = 500, stack = false, close = true },
 ```
