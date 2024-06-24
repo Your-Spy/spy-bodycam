@@ -47,7 +47,7 @@ Make sure to have the following dependencies installed:
 - **Dedicated Cam Positions**: Optimized camera positions for walking and car driving.
 
 ## Credits
-Special thanks to aarjey0_0 (Discord ID) for creating the custom prop included with this script.
+Special thanks to aarjey0_0 for creating the custom prop included with this script.
 Feel free to customize the script further to fit your server's needs and ensure all dependencies are up to date for smooth operation.
 
 ## Feedback and Support
