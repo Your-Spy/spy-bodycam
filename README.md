@@ -27,8 +27,11 @@ Make sure to have the following dependencies installed:
 5. Add the item image in image folder to your inventory.
 6. Add the item
  
-[qbcore]
+### qbcore
 ```lua
 ['bodycam'] 		= {['name'] = 'bodycam', 			    ['label'] = 'Bodycam', 		['weight'] = 500, 		['type'] = 'item', 		['image'] = 'bodycam.png', 	    ['unique'] = true, 	    ['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'Bodycam for authorized personnel only'},
 ```
-[ox_inv]
+### ox_inv
+```lua
+	['bodycam'] = { label = 'Bodycam', weight = 500, stack = false, close = true },
+```
