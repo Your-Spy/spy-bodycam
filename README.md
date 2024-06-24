@@ -39,12 +39,12 @@ Make sure to have the following dependencies installed:
 ['bodycam'] = { label = 'Bodycam', weight = 500, stack = false, close = true },
 ```
 ## Features
-- Overlay GTA6 bodycam like.
-- Watch other player bodycam.
-- Decoy ped creation when watching.
-- Multiple job support.
-- Custom prop included with the script.
-- Dedicated cam position for walking / car.
+- **Overlay GTA6-like Bodycam**: Provides an immersive bodycam overlay with sounds.
+- **Watch Other Players' Bodycam**: Monitor the bodycam footage of other players in real-time.
+- **Decoy Ped Creation**: Automatically creates a decoy pedestrian when watching other players.
+- **Multiple Job Support**: Supports various job roles, allowing customization per job.
+- **Custom Prop Included**: The script includes a custom bodycam prop for enhanced realism.
+- **Dedicated Cam Positions**: Optimized camera positions for walking and car driving.
 
 ## Feedback and Support
 I welcome any feedback or suggestions. If you encounter any issues or need support, please don't hesitate to reach out on the Discord server mentioned above.
