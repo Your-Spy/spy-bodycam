@@ -17,7 +17,7 @@ Make sure to have the following dependencies installed:
 - `qb/ox-target`
 - `qb-clothing/illenium_appearance [OPTIONAL]`
 
-## Preview - [YouTube]([https://youtu.be/n4S_a9JKzFw](https://youtu.be/bDKH9l0Zhzc))
+## Preview - [YouTube](https://youtu.be/bDKH9l0Zhzc)
 
 ## How to Install
 1. Ensure you have one of the compatible frameworks (QBCore, Qbox, or ESX) installed on your roleplay server.
