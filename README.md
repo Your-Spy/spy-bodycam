@@ -46,6 +46,10 @@ Make sure to have the following dependencies installed:
 - **Custom Prop Included**: The script includes a custom bodycam prop for enhanced realism.
 - **Dedicated Cam Positions**: Optimized camera positions for walking and car driving.
 
+## Credits
+Special thanks to aarjey0_0 (Discord ID) for creating the custom prop included with this script.
+Feel free to customize the script further to fit your server's needs and ensure all dependencies are up to date for smooth operation.
+
 ## Feedback and Support
 I welcome any feedback or suggestions. If you encounter any issues or need support, please don't hesitate to reach out on the Discord server mentioned above.
 
