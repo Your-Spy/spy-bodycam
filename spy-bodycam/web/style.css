@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap');
+* {
+    box-sizing: border-box;
+    margin: 0%;
+    padding: 0%;
+}
+.overlayCont{
+    display: flex;
+    justify-content: flex-end;
+}
+.overlayBody{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    margin-top: 2rem;
+    margin-right: 2rem;
+    background: rgba(0, 0, 0, 0.397);
+    padding: 1rem;
+    border-radius: 20px;
+    color: white;
+}
+.bodyInfobox {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.overlayBody img{
+    width: 66px;
+    height: auto;
+}
+.bodyNum , .bodyCallsign {
+    font-family: "Play", sans-serif;
+}
+.bodyIcon{
+    margin-right: 15px;
+    color: rgb(173, 8, 8);
+}
+.bodyDate{
+    font-size: 17px;
+    font-family: "Varela Round", sans-serif;
+    font-weight: bold;
+}
+.AddonIcons{    
+    display: flex;
+    gap: 5px;
+    position: absolute;
+    bottom: 9px;
+    left: 20px;
+    font-size: 15px;
+}
+.currWatchCont{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    display: flex;
+    flex-direction: row;
+}
+
+.watchInText{
+    margin-left: 10px;
+}
+.watchIcon{
+    font-size: 15px;
+}
+.userLaber {
+    margin-top: 10px;
+    margin-left: 10px;
+    font-family: "Play", sans-serif;
+    font-size: 20px;
+    background: rgba(0, 0, 0, 0.397);
+    display: inline-block; 
+    padding: 10px; 
+    border-radius: 10px;
+    color: white;
+    text-shadow: -1px 1px 1px rgba(0, 0, 0, 0.55);
+}
+
+.backInText{
+    background: rgb(27, 27, 27);
+    padding: 4px;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+.backIcon{
+    font-size: 15px;
+}
+.backLabel {
+    margin-top: 10px;
+    margin-left: 10px;
+    font-family: "Play", sans-serif;
+    font-size: 20px;
+    background: rgba(0, 0, 0, 0.397);
+    display: inline-block; 
+    padding: 10px; 
+    border-radius: 10px;
+    color: white;
+    text-shadow: -1px 1px 1px rgba(0, 0, 0, 0.55);
+    
+}
