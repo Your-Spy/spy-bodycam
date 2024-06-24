@@ -28,7 +28,7 @@ Make sure to have the following dependencies installed:
 
 ![Bodycam Image](https://i.imgur.com/CuSyeZT.png)
 
-7. Add the item
+6. Add the item
 
 ### QBCore
 ```lua
