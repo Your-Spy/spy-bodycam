@@ -24,7 +24,7 @@ Config.Dependency = {
     UseAppearance = 'illenium',       -- qb | illenium | false 
 }
 
-Config.ExitCamKey = 'E' -- Edit in HTML for ui change :)
+Config.ExitCamKey = 'E' 
 Config.CameraEffect = 'Island_CCTV_ChannelFuzz'
 
 Config.AllowedJobs = { -- Only these jobs can use bodycam item.

@@ -42,6 +42,7 @@ $(document).ready(function () {
         if (data.action === 'openWatch') {
             const WatchText = "BODY " + data.bodyId +" "+ data.name
             $('.watchInText').text(WatchText);
+            $('.backInText').text(data.exitKey);
             $('.currWatchCont').fadeIn();
         } else if (data.action === 'closeWatch') {
             $('.currWatchCont').fadeOut();

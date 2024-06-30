@@ -483,6 +483,7 @@ function OpenWatch(bool,bodyId,name)
             action = 'openWatch',
             bodyId = bodyId,
             name = name,
+            exitKey = Config.ExitCamKey,
         })
     else
         SendNUIMessage({
