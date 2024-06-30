@@ -340,8 +340,8 @@ RegisterNetEvent('spy-bodycam:client:deleteDecoyPed',function(plyId)
     end
 end)
 
-RegisterKeyMapping('+spybodyexit', 'Exit bodycam spectate', 'keyboard', Config.ExitCamKey)
-RegisterCommand('+spybodyexit', function()
+RegisterKeyMapping('bodycamexit', 'Exit bodycam spectate', 'keyboard', Config.ExitCamKey)
+RegisterCommand('bodycamexit', function()
     if PlyInCam then
         QuitBodyCam()
     elseif PlyInSelfCam then
