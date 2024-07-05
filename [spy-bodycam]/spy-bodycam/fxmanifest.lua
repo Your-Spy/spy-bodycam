@@ -3,7 +3,7 @@ fx_version 'cerulean'
 game "gta5"
 
 author "Spy-Script"
-version '1.0.1'
+version '2.0.0'
 
 lua54 'yes'
 
@@ -26,4 +26,5 @@ client_script {
 
 files {
   'web/**',
+  "node_modules/fivem-game-view/**/*",
 }

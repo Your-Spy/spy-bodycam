@@ -10,12 +10,12 @@ CreateThread(function()
 					{
 						type = "client",
 						icon = "fas fa-sign-in-alt",
-						label = 'Open Bodycam Portal',
+						label = 'Open Camera Portal',
 						action = function(entity)
 							TriggerEvent('spy-bodycam:openActiveMenu',k) 
 						  end,
 						canInteract = function(entity)
-							return isLocFilterTrue(k,PlayerJob.name)
+							return targetAuth(k,PlayerJob.name)
 						end,
 						
 					},
@@ -33,14 +33,14 @@ CreateThread(function()
 					drawSprite = false,
 					options = {
 						name = "spycam_watch"..k,
-						label = 'Open Bodycam Portal',
+						label = 'Open Camera Portal',
 						icon = "fas fa-sign-in-alt",
 						distance = 2.5,
 						onSelect = function(data)
 							TriggerEvent('spy-bodycam:openActiveMenu',k) 
 						end,
 						canInteract = function(entity, distance, coords, name, bone)
-							return isLocFilterTrue(k,PlayerJob.name)
+							return targetAuth(k,PlayerJob.name)
 						end,
 					}
 				}

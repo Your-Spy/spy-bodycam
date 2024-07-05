@@ -1,0 +1,24 @@
+{
+  "name": "fivem-game-view",
+  "version": "1.0.0",
+  "description": "FiveM Realtime GameView for HTML",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/felipecoder/fivem-game-view.git"
+  },
+  "keywords": [
+    "FiveM",
+    "cfx.re",
+    "GameView"
+  ],
+  "author": "felipecoder <felipexgyn619@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/felipecoder/fivem-game-view/issues"
+  },
+  "homepage": "https://github.com/felipecoder/fivem-game-view#readme"
+}
