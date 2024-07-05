@@ -55,10 +55,6 @@ AddEventHandler('onResourceStop', function(resourceName)
 			for k,v in ipairs(Config.WatchLoc) do
 				exports['qb-target']:RemoveZone("spycam_watch"..k)
 			end
-		else
-			for k,v in ipairs(Config.WatchLoc) do
-				exports.ox_target:removeZone("spycam_watch"..k)
-			end
 		end
     end 
 end)
