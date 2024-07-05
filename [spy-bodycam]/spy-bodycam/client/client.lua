@@ -333,7 +333,6 @@ RegisterNetEvent('spy-bodycam:toggleCarCam', function()
     end
 end)
 
-
 RegisterNetEvent('spy-bodycam:updatelisteffect',function()
     if PlyInSelfCam or PlyInCam then
         if (not GlobalState.PlayerOnBodycam[targetPedId]) then 
@@ -653,15 +652,17 @@ RegisterNetEvent('spy-bodycam:client:startRec',function(webhook)
         action = "toggle_record",
         hook = webhook
     })
-    SetTimecycleModifier(Config.CameraEffect.bodycam)
-    SetTimecycleModifierStrength(0.5)
-    CreateThread(function() 
-        onRec = true
-        while onRec do
-            SetFollowPedCamViewMode(4)
-            Wait(0)
-        end
-    end)
+    if Config.ForceViewCam then 
+        SetTimecycleModifier(Config.CameraEffect.bodycam)
+        SetTimecycleModifierStrength(0.5)
+        CreateThread(function() 
+            onRec = true
+            while onRec do
+                SetFollowPedCamViewMode(4)
+                Wait(0)
+            end
+        end)
+    end
 end)
 
 RegisterKeyMapping('bodycamexit', 'Exit bodycam spectate', 'keyboard', Config.ExitCamKey)
@@ -674,6 +675,7 @@ RegisterCommand('bodycamexit', function()
 end)
 
 RegisterNUICallback('exitBodyCam', function(data, cb)
+    if not Config.ForceViewCam then return end
     onRec = false
     SetFollowPedCamViewMode(1)
     SetTimecycleModifier('default')

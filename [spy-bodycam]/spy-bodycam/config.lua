@@ -39,6 +39,8 @@ Config.CameraEffect = {
     dashcam = 'TinyRacerMoBlur',
 } 
 
+Config.ForceViewCam = true     -- Forces cam view to first person when recording.
+
 Config.PropLoc = {  -- Change prop position according to ur clothing pack.
     male = {
         bone = 24818,
