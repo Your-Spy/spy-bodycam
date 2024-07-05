@@ -49,6 +49,7 @@ Make sure to have the following dependencies installed:
 ## Credits
 Special thanks to aarjey0_0 for creating the custom prop included with this script.
 Feel free to customize the script further to fit your server's needs and ensure all dependencies are up to date for smooth operation.
+
 Credit to @felipecoder for the fivem game view for recording!
 
 ## Feedback and Support
