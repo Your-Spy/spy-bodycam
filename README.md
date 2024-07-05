@@ -34,7 +34,7 @@ Make sure to have the following dependencies installed:
 ### QBCore
 ```lua
 ['bodycam'] = {['name'] = 'bodycam', ['label'] = 'Bodycam', ['weight'] = 500, ['type'] = 'item', ['image'] = 'bodycam.png', ['unique'] = true, ['useable'] = true, ['shouldClose'] = true, ['combinable'] = nil, ['description'] = 'Bodycam for authorized personnel only'},
-['dashcam'] 		= {['name'] = 'dashcam', 			    ['label'] = 'Dashcam', 		['weight'] = 500, 		['type'] = 'item', 		['image'] = 'dashcam.png', 	    ['unique'] = true, 	    ['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'Dashcam for authorized vehicle only'},
+['dashcam'] = {['name'] = 'dashcam', ['label'] = 'Dashcam', ['weight'] = 500, ['type'] = 'item', ['image'] = 'dashcam.png', ['unique'] = true, ['useable'] = true, ['shouldClose'] = true, ['combinable'] = nil, ['description'] = 'Dashcam for authorized vehicle only'},
 ```
 ### OX
 ```lua
