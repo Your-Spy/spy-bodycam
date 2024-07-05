@@ -45,6 +45,9 @@ Make sure to have the following dependencies installed:
 - **Multiple Job Support**: Supports various job roles, allowing customization per job.
 - **Custom Prop Included**: The script includes a custom bodycam prop for enhanced realism.
 - **Dedicated Cam Positions**: Optimized camera positions for walking and car driving.
+- **Vehicle Dashcam Support**: You can now use a dashcam item to activate car cameras, which can be viewed anytime, no matter where the vehicle is in real-time.
+- **Cam Offset System for Vehicles**: You can now adjust individual vehicle cameras if their positioning is bad with the built-in offset finder.
+- **Highly Requested Record Feature**: Added a realistic record cam feature that can be used with /recordcam. This sends the video to a Discord channel with a detailed player log.
 
 ## Credits
 Special thanks to aarjey0_0 for creating the custom prop included with this script.
