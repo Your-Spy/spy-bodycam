@@ -1,5 +1,5 @@
 # SPY-BODYCAM SYSTEM
-Spy bodycam script offers a bodycam overlay on your screen and lets you see other players bodycam.
+Spy bodycam script offers a bodycam overlay on your screen and lets you see other players bodycam and car dashcams, It lets you record a short video and sends it to the discord for you to see with detailed player log.
 
 ## Discord Support
 For any assistance or questions, feel free to join my Discord server: [https://discord.gg/dg9tFH3F2P](https://discord.gg/dg9tFH3F2P)
@@ -24,19 +24,22 @@ Make sure to have the following dependencies installed:
 2. Install the required dependencies.
 3. Drag and drop in resources folder and add in server.cfg.
 4. Setup the config as per your framework.
-5. Add the item image to your inventory.
+5. Add the item images to your inventory.
 
 ![Bodycam Image](https://i.imgur.com/CuSyeZT.png)
+![Dashcam Image](https://i.imgur.com/TVx1mcn.png)
 
-6. Add the item
+6. Add the items
 
 ### QBCore
 ```lua
 ['bodycam'] = {['name'] = 'bodycam', ['label'] = 'Bodycam', ['weight'] = 500, ['type'] = 'item', ['image'] = 'bodycam.png', ['unique'] = true, ['useable'] = true, ['shouldClose'] = true, ['combinable'] = nil, ['description'] = 'Bodycam for authorized personnel only'},
+['dashcam'] 		= {['name'] = 'dashcam', 			    ['label'] = 'Dashcam', 		['weight'] = 500, 		['type'] = 'item', 		['image'] = 'dashcam.png', 	    ['unique'] = true, 	    ['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'Dashcam for authorized vehicle only'},
 ```
 ### OX
 ```lua
 ['bodycam'] = { label = 'Bodycam', weight = 500, stack = false, close = true },
+['dashcam'] = { label = 'Dashcam', weight = 500, stack = false, close = true },
 ```
 ## Features
 - **Overlay GTA6-like Bodycam**: Provides an immersive bodycam overlay with sounds.
