@@ -32,16 +32,18 @@ CreateThread(function()
 					debug = v.debug,
 					drawSprite = false,
 					options = {
-						name = "spycam_watch"..k,
-						label = 'Open Camera Portal',
-						icon = "fas fa-sign-in-alt",
-						distance = 2.5,
-						onSelect = function(data)
-							TriggerEvent('spy-bodycam:openActiveMenu',k) 
-						end,
-						canInteract = function(entity, distance, coords, name, bone)
-							return targetAuth(k,PlayerJob.name)
-						end,
+						{
+							name = "spycam_watch"..k,
+							label = 'Open Camera Portal',
+							icon = "fas fa-sign-in-alt",
+							distance = 2.5,
+							onSelect = function(data)
+								TriggerEvent('spy-bodycam:openActiveMenu',k) 
+							end,
+							canInteract = function(entity, distance, coords, name, bone)
+								return targetAuth(k,PlayerJob.name)
+							end,
+						}
 					}
 				}
 			)
