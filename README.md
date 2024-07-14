@@ -41,6 +41,11 @@ Make sure to have the following dependencies installed:
 ['bodycam'] = { label = 'Bodycam', weight = 500, stack = false, close = true },
 ['dashcam'] = { label = 'Dashcam', weight = 500, stack = false, close = true },
 ```
+### ESX
+```lua
+INSERT INTO `items` (`name`, `label`, `weight`, `rare`, `can_remove`) VALUES ('bodycam', 'Bodycam', 1, 0, 1);
+INSERT INTO `items` (`name`, `label`, `weight`, `rare`, `can_remove`) VALUES ('dashcam', 'Dashcam', 1, 0, 1);
+```
 ## Features
 - **Overlay GTA6-like Bodycam**: Provides an immersive bodycam overlay with sounds.
 - **Watch Other Players' Bodycam**: Monitor the bodycam footage of other players in real-time.
