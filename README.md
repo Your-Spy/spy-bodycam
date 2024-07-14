@@ -8,7 +8,7 @@ For any assistance or questions, feel free to join my Discord server: [https://d
 The bodycam script is designed to work seamlessly with the following frameworks:
 - QBCore
 - Qbox
-- ESX [Note:- ESX Support is only for OX Inv and Target. You can make edits to support other stuff]
+- ESX [Note:- ESX Support requires ox_target. You can make edits to support other stuff]
 
 ## Dependencies
 Make sure to have the following dependencies installed:
