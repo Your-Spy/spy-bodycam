@@ -13,7 +13,7 @@ The bodycam script is designed to work seamlessly with the following frameworks:
 ## Dependencies
 Make sure to have the following dependencies installed:
 - `ox_lib`
-- `qb/ox-inventory`
+- `qb/ox/esx-inventory`
 - `qb/ox-target`
 - `qb-clothing/illenium_appearance [OPTIONAL]`
 
