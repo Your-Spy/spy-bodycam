@@ -88,7 +88,11 @@ RegisterNetEvent('spy-bodycam:startWatchingDashcam',function(netId)
     SetEntityInvincible(cache.ped, true) -- Set invincible
     NetworkSetEntityInvisibleToNetwork(cache.ped, true) -- Set invisibility
     SetEntityCoords(cache.ped, targetCoords.x, targetCoords.y, targetCoords.z - 100.0)
-    TriggerServerEvent('spy-bodycam:server:ReqDecoyPed',GetPlayerDataCore().citizenid,goBackCoords)
+    if Config.Framework == 'qb' then
+        TriggerServerEvent('spy-bodycam:server:ReqDecoyPed',GetPlayerDataCore().citizenid,goBackCoords)
+    elseif Config.Framework == 'esx' or Config.Framework == 'oldesx' then 
+        TriggerServerEvent('spy-bodycam:server:ReqDecoyPed',GetPlayerDataCore().identifier,goBackCoords)
+    end
     Wait(500)
     bodycam = CreateCam("DEFAULT_SCRIPTED_FLY_CAMERA", true)
     targetPed = NetworkGetEntityFromNetworkId(netId)
@@ -159,7 +163,11 @@ RegisterNetEvent('spy-bodycam:startWatching',function(targetId)
     SetEntityInvincible(cache.ped, true) -- Set invincible
     NetworkSetEntityInvisibleToNetwork(cache.ped, true) -- Set invisibility
     SetEntityCoords(cache.ped, targetCoords.x, targetCoords.y, targetCoords.z - 100.0)
-    TriggerServerEvent('spy-bodycam:server:ReqDecoyPed',GetPlayerDataCore().citizenid,goBackCoords)
+    if Config.Framework == 'qb' then
+        TriggerServerEvent('spy-bodycam:server:ReqDecoyPed',GetPlayerDataCore().citizenid,goBackCoords)
+    elseif Config.Framework == 'esx' or Config.Framework == 'oldesx' then 
+        TriggerServerEvent('spy-bodycam:server:ReqDecoyPed',GetPlayerDataCore().identifier,goBackCoords)
+    end
     Wait(500)
     local targetPlayer = GetPlayerFromServerId(targetId)
     targetPed = GetPlayerPed(targetPlayer)
@@ -185,7 +193,6 @@ RegisterNetEvent('spy-bodycam:startWatching',function(targetId)
         SetCarCam()
     end)
 end)
-
 
 RegisterNetEvent('spy-bodycam:startSelfWatching',function(targetId)
     targetPed = cache.ped
@@ -245,7 +252,7 @@ RegisterNetEvent('spy-bodycam:bodycamstatus',function()
             else
             NotifyPlayer('Cancelled!', 'error')
         end   
-    else
+    elseif Config.Dependency.UseProgress == 'qb' then
         QBCore.Functions.Progressbar('spy_bdycam', acvstring..' Bodycam...', 2500, false, true, {
             disableMovement = false,
             disableCarMovement = false,
@@ -272,6 +279,32 @@ RegisterNetEvent('spy-bodycam:bodycamstatus',function()
             StopAnimTask(cache.ped, 'clothingtie', 'try_tie_positive_a', 1.0)
             NotifyPlayer('Cancelled!', 'error')
         end)
+    elseif Config.Dependency.UseProgress == 'esx' then
+        ESX.Progressbar(acvstring..' Bodycam...', 2500,{
+            FreezePlayer = false, 
+            animation ={
+                type = "anim",
+                dict = "clothingtie", 
+                lib ="try_tie_positive_a"
+            },
+            onFinish = function()
+                StopAnimTask(cache.ped, 'clothingtie', 'try_tie_positive_a', 1.0)
+                bcamstate = not bcamstate
+                BodyOverlay(bcamstate)
+                TriggerServerEvent('spy-bodycam:server:toggleList',bcamstate)
+                toggleProp(bcamstate)
+                if bcamstate then 
+                    Citizen.CreateThread(function()
+                        CheckForItem()
+                    end)
+                else
+                    SendNUIMessage({action = "cancel_rec_force"})
+                end
+        end, onCancel = function()
+            StopAnimTask(cache.ped, 'clothingtie', 'try_tie_positive_a', 1.0)
+            NotifyPlayer('Cancelled!', 'error')
+        end
+        })
     end
 end)
 
@@ -311,7 +344,7 @@ RegisterNetEvent('spy-bodycam:toggleCarCam', function()
             else
                 NotifyPlayer('Cancelled!', 'error')
             end   
-        else
+        elseif Config.Dependency.UseProgress == 'qb' then
             QBCore.Functions.Progressbar('spy_bdycam', acvstring .. ' Dashcam...', 2500, false, true, {
                 disableMovement = true,
                 disableCarMovement = true,
@@ -329,6 +362,24 @@ RegisterNetEvent('spy-bodycam:toggleCarCam', function()
                 StopAnimTask(cache.ped, 'veh@submersible@ds@base', 'change_station', 1.0)
                 NotifyPlayer('Cancelled!', 'error')
             end)
+        elseif Config.Dependency.UseProgress == 'esx' then
+            ESX.Progressbar(acvstring .. ' Dashcam...', 2500,{
+                FreezePlayer = false, 
+                animation ={
+                    type = "anim",
+                    dict = "veh@submersible@ds@base", 
+                    lib ="change_station"
+                },
+                onFinish = function()
+                    ToggleCarCam(netId, veh)
+                    StopAnimTask(cache.ped, 'veh@submersible@ds@base', 'change_station', 1.0)
+                    NotifyPlayer('Dashcam '..donestr, 'success')
+            end, onCancel = function()
+                StopAnimTask(cache.ped, 'veh@submersible@ds@base', 'change_station', 1.0)
+                NotifyPlayer('Cancelled!', 'error')
+            end
+            })
+            
         end
     end
 end)
@@ -374,7 +425,7 @@ RegisterNetEvent('spy-bodycam:openActiveMenu', function(locId)
                 TriggerEvent('spy-bodycam:openActiveMenuCars', locId)
             end
         }
-    else
+    elseif Config.Dependency.UseMenu == 'qb' then
         optionsMenu[#optionsMenu+1] = { 
             header = 'Active Bodycams',
             icon = 'fas fa-user',
@@ -395,6 +446,19 @@ RegisterNetEvent('spy-bodycam:openActiveMenu', function(locId)
                 end
             } 
         }
+    elseif Config.Dependency.UseMenu == 'esx' then
+        optionsMenu[#optionsMenu+1] = {unselectable= true, title="Camera Portal", name = 'e1'}
+        optionsMenu[#optionsMenu+1] = {icon="fas fa-user", title="Active Bodycams", name = 'e2'}
+        optionsMenu[#optionsMenu+1] = {icon="fas fa-car", title="Active Dashcams", name = 'e3'}
+        ESX.OpenContext("right" , optionsMenu,
+        function(menu,element) 
+            if element.name == "e2" then
+                TriggerEvent('spy-bodycam:openActiveMenuJob', locId)
+            end
+            if element.name == "e3" then
+                TriggerEvent('spy-bodycam:openActiveMenuCars', locId)
+            end
+        end)
     end
     if Config.Dependency.UseMenu == 'ox' then
         lib.registerContext({
@@ -403,7 +467,7 @@ RegisterNetEvent('spy-bodycam:openActiveMenu', function(locId)
             options = optionsMenu
         })
         lib.showContext('spy_bdcam_list')
-    else
+    elseif Config.Dependency.UseMenu == 'qb' then
         exports['qb-menu']:openMenu(optionsMenu)
     end
 end)
@@ -423,7 +487,7 @@ RegisterNetEvent('spy-bodycam:openActiveMenuJob', function(locId)
                 end
             } 
         }
-    else
+    elseif Config.Dependency.UseMenu == 'ox' then 
         optionsMenu[#optionsMenu+1] = {
             title = 'Go Back',
             icon = 'left-long',
@@ -431,6 +495,9 @@ RegisterNetEvent('spy-bodycam:openActiveMenuJob', function(locId)
                 TriggerEvent('spy-bodycam:openActiveMenu',locId)
             end
         }
+    elseif Config.Dependency.UseMenu == 'esx' then
+        optionsMenu[#optionsMenu+1] = {unselectable= true, title="Active Bodycams", name = 'e1'}
+        optionsMenu[#optionsMenu+1] = {icon="fas fa-left-long", title="Go Back", name = 'back'}
     end
     for k, v in pairs(GlobalState.PlayerOnBodycam) do
         if Config.WatchLoc[locId].jobCam then  
@@ -449,7 +516,7 @@ RegisterNetEvent('spy-bodycam:openActiveMenuJob', function(locId)
                             end)
                         end
                     }
-                else
+                elseif Config.Dependency.UseMenu == 'qb' then
                     optionsMenu[#optionsMenu+1] = { 
                         header = v.name,
                         txt = v.job.." | "..v.rank,
@@ -465,6 +532,13 @@ RegisterNetEvent('spy-bodycam:openActiveMenuJob', function(locId)
                                 end)
                             end
                         } 
+                    }
+                elseif Config.Dependency.UseMenu == 'esx' then
+                    optionsMenu[#optionsMenu+1] = {
+                        icon="fas fa-video", 
+                        title = v.name, 
+                        description = v.job.." | "..v.rank,
+                        name = k
                     }
                 end
             end
@@ -483,7 +557,7 @@ RegisterNetEvent('spy-bodycam:openActiveMenuJob', function(locId)
                         end)
                     end
                 }
-            else
+            elseif Config.Dependency.UseMenu == 'qb' then
                 optionsMenu[#optionsMenu+1] = { 
                     header = v.name,
                     txt = v.job.." | "..v.rank,
@@ -500,6 +574,13 @@ RegisterNetEvent('spy-bodycam:openActiveMenuJob', function(locId)
                         end
                     } 
                 }
+            elseif Config.Dependency.UseMenu == 'esx' then
+                optionsMenu[#optionsMenu+1] = {
+                    icon="fas fa-video", 
+                    title = v.name, 
+                    description = v.job.." | "..v.rank,
+                    name = k
+                }
             end
         end
     end
@@ -510,8 +591,20 @@ RegisterNetEvent('spy-bodycam:openActiveMenuJob', function(locId)
             options = optionsMenu
         })
         lib.showContext('spy_bcam_list')
-    else
+    elseif Config.Dependency.UseMenu == 'qb' then
         exports['qb-menu']:openMenu(optionsMenu)
+    elseif Config.Dependency.UseMenu == 'esx' then
+        ESX.OpenContext("right" , optionsMenu,
+        function(menu,element)
+            if element.name == 'back' then TriggerEvent('spy-bodycam:openActiveMenu',locId) return end
+            TriggerEvent('spy-bodycam:startWatching',element.name)
+            local coord = GetEntityCoords(cache.ped)
+            goBackCoords = vector4(coord.x, coord.y, coord.z -1 , GetEntityHeading(cache.ped))
+            SetTimeout(2000, function()
+                OpenWatch(true,element.name,element.title,true)
+            end) 
+            ESX.CloseContext()
+        end)
     end
 end)
 
@@ -530,7 +623,7 @@ RegisterNetEvent('spy-bodycam:openActiveMenuCars', function(locId)
                 end
             } 
         }
-    else
+    elseif Config.Dependency.UseMenu == 'ox' then 
         optionsMenu[#optionsMenu+1] = {
             title = 'Go Back',
             icon = 'left-long',
@@ -538,6 +631,9 @@ RegisterNetEvent('spy-bodycam:openActiveMenuCars', function(locId)
                 TriggerEvent('spy-bodycam:openActiveMenu',locId)
             end
         }
+    elseif Config.Dependency.UseMenu == 'esx' then
+        optionsMenu[#optionsMenu+1] = {unselectable= true, title="Active Dashcams", name = 'e1'}
+        optionsMenu[#optionsMenu+1] = {icon="fas fa-left-long", title="Go Back", name = 'back'}
     end
     for k, v in pairs(GlobalState.CarsOnBodycam) do
         if Config.WatchLoc[locId].carCam then  
@@ -551,7 +647,7 @@ RegisterNetEvent('spy-bodycam:openActiveMenuCars', function(locId)
                             StartDashCamWatch(k,v.plate,v.carname) 
                         end
                     }
-                else
+                elseif Config.Dependency.UseMenu == 'qb' then 
                     optionsMenu[#optionsMenu+1] = { 
                         header = v.carname,
                         txt = "Plate: "..v.plate.." | "..v.name,
@@ -562,6 +658,13 @@ RegisterNetEvent('spy-bodycam:openActiveMenuCars', function(locId)
                                 StartDashCamWatch(k,v.plate,v.carname) 
                             end
                         } 
+                    }
+                elseif Config.Dependency.UseMenu == 'esx' then 
+                    optionsMenu[#optionsMenu+1] = {
+                        icon="fas fa-car", 
+                        title = v.carname, 
+                        description = "Plate: "..v.plate.." | "..v.name,
+                        value = {k,v.plate,v.carname}
                     }
                 end
             end
@@ -575,7 +678,7 @@ RegisterNetEvent('spy-bodycam:openActiveMenuCars', function(locId)
                         StartDashCamWatch(k,v.plate,v.carname) 
                     end
                 }
-            else
+            elseif Config.Dependency.UseMenu == 'qb' then 
                 optionsMenu[#optionsMenu+1] = { 
                     header = v.carname,
                     txt = "Plate: "..v.plate.." | "..v.name,
@@ -587,6 +690,13 @@ RegisterNetEvent('spy-bodycam:openActiveMenuCars', function(locId)
                         end
                     } 
                 }
+            elseif Config.Dependency.UseMenu == 'esx' then 
+                optionsMenu[#optionsMenu+1] = {
+                    icon="fas fa-car", 
+                    title = v.carname, 
+                    description = "Plate: "..v.plate.." | "..v.name,
+                    value = {k,v.plate,v.carname}
+                }
             end
         end
     end
@@ -597,8 +707,15 @@ RegisterNetEvent('spy-bodycam:openActiveMenuCars', function(locId)
             options = optionsMenu
         })
         lib.showContext('spy_dcam_list')
-    else
+    elseif Config.Dependency.UseMenu == 'qb' then
         exports['qb-menu']:openMenu(optionsMenu)
+    elseif Config.Dependency.UseMenu == 'esx' then
+        ESX.OpenContext("right" , optionsMenu,
+        function(menu,element)
+            if element.name == 'back' then TriggerEvent('spy-bodycam:openActiveMenu',locId) return end
+            StartDashCamWatch(element.value[1],element.value[2],element.value[3])
+            ESX.CloseContext()
+        end)
     end
 end)
 
@@ -631,8 +748,6 @@ RegisterNetEvent('spy-bodycam:client:createDecoyPed', function(model, data, pVec
             exports['illenium-appearance']:setPedAppearance(charPed[plyId], data)
         end
     end
-
-
     PlayWatchAnim(charPed[plyId],false)
 end)
 
@@ -1019,8 +1134,10 @@ function NotifyPlayer(msg,type,time)
             duration = time,
             type = type
         })        
-    else
+    elseif Config.Dependency.UseNotify == 'qb' then
         QBCore.Functions.Notify(msg,type,time)
+    elseif Config.Dependency.UseNotify == 'esx' then
+        ESX.ShowNotification(msg, type, time)
     end
 end
 
@@ -1031,7 +1148,7 @@ function GetPlayerDataCore()
         else
             return false
         end
-    elseif Config.Framework == 'esx' then
+    elseif Config.Framework == 'esx' or Config.Framework == 'oldesx' then
         if ESX.GetPlayerData()then
             return ESX.GetPlayerData()
         else
@@ -1043,6 +1160,13 @@ end
 function HasItemsCheck(itemname)
     if Config.Dependency.UseInventory == 'qb' then
         return QBCore.Functions.HasItem(itemname)
+    elseif Config.Dependency.UseInventory == 'esx' then 
+        local hasItem = ESX.SearchInventory(itemname, 1)
+        if hasItem >= 1 then
+          return true
+        else
+          return false
+        end
     elseif Config.Dependency.UseInventory == 'ox' then
         local chkItem = exports.ox_inventory:Search('count', itemname)
         if type(chkItem) == 'table' then

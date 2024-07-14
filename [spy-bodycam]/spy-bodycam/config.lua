@@ -23,13 +23,13 @@ elseif Config.Framework == 'oldesx' then
     end)
 end
 
-Config.Dependency = {            -- *[ESX SUPPORT IS THROUGH ox-inv | ox-lib]
-    UseTarget = 'qb',            -- qb | ox
-    UseInventory = 'qb',         -- qb | ox             
-    UseProgress = 'qb',          -- qb | ox                     
-    UseMenu = 'ox',              -- qb | ox 
-    UseNotify = 'ox',            -- qb | ox
-    UseAppearance = 'illenium',  -- qb | illenium | false 
+Config.Dependency = {                   -- *[ESX SUPPORT IS THROUGH ox_target | ox_lib]
+    UseTarget = 'qb',                   -- qb | ox
+    UseInventory = 'qb',                -- qb | ox | esx             
+    UseProgress = 'qb',                 -- qb | ox | esx                  
+    UseMenu = 'qb',                     -- qb | ox | esx 
+    UseNotify = 'qb',                   -- qb | ox | esx
+    UseAppearance = 'illenium',         -- qb | illenium | false 
 }
 
 Config.ExitCamKey = 'BACK' 
@@ -78,11 +78,10 @@ Config.WatchLoc = {
 
 Config.DebugCamera = false -- Make it true if you want to get new camera offset for some vehicle.
 Config.VehCamOffset = {
-    [`police2`] = {-3.000000, -3.330000, -3.530000},
+    [`police2`] = {0.000000, 0.330000, 0.530000},
     -- [`18chgr2`] = {0.000000, 0.510000, 0.630000},  -- Example vehicle. The script comes with its own offset finder just set DebugCamera to true and get the offset.
     -- [`vehiclespawncode`] = {0.000000, 0.510000, 0.630000},
 }
-
 -- Vehicle Classes:  
 -- 0: Compacts  
 -- 1: Sedans  

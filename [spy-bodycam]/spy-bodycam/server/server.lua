@@ -107,6 +107,7 @@ end)
 RegisterNetEvent('spy-bodycam:server:ReqDecoyPed', function(cid, pedCoords)
     if not Config.Dependency.UseAppearance then return end
     local src = source
+    local result
     local function handleDecoyPed(model, skin, pedCoords, src)
         local nPlayers = lib.getNearbyPlayers(vector3(pedCoords.x, pedCoords.y, pedCoords.z), 150)
         if nPlayers then
@@ -115,13 +116,23 @@ RegisterNetEvent('spy-bodycam:server:ReqDecoyPed', function(cid, pedCoords)
             end
         end
     end
-    local result = MySQL.query.await('SELECT * FROM playerskins WHERE citizenid = ? AND active = ?', {cid, 1})
-    if result[1] ~= nil then
-        local skinData = json.decode(result[1].skin)
-        if Config.Dependency.UseAppearance == 'qb' then
-            handleDecoyPed(tonumber(result[1].model), skinData, pedCoords, src)
-        elseif Config.Dependency.UseAppearance == 'illenium' then
-            handleDecoyPed(joaat(skinData.model), skinData, pedCoords, src)
+    if Config.Framework == 'qb' then
+        result = MySQL.query.await('SELECT * FROM playerskins WHERE citizenid = ? AND active = ?', {cid, 1})
+        if result[1] ~= nil then
+            local skinData = json.decode(result[1].skin)
+            if Config.Dependency.UseAppearance == 'qb' then
+                handleDecoyPed(tonumber(result[1].model), skinData, pedCoords, src)
+            elseif Config.Dependency.UseAppearance == 'illenium' then
+                handleDecoyPed(joaat(skinData.model), skinData, pedCoords, src)
+            end
+        end
+    elseif Config.Framework == 'esx' or Config.Framework == 'oldesx' then
+        result = MySQL.single.await("SELECT skin FROM users WHERE identifier = ?", {cid})
+        if result then
+            local skinData = json.decode(result.skin)
+            if Config.Dependency.UseAppearance == 'illenium' then
+                handleDecoyPed(joaat(skinData.model), skinData, pedCoords, src)
+            end
         end
     end
 end)
@@ -223,8 +234,10 @@ end)
 function NotifyPlayerSv(msg,type,time,src)
     if Config.Dependency.UseNotify == 'ox' then
         TriggerClientEvent('ox_lib:notify', src, { type = type or "success", title = '', description = msg, duration = time })      
-    else
+    elseif Config.Dependency.UseNotify == 'qb' then
         TriggerClientEvent("QBCore:Notify", src, msg, type,time)
+    elseif Config.Dependency.UseNotify == 'esx' then
+        TriggerClientEvent("esx:showNotification", src, msg, type)
     end
 end
 
@@ -242,3 +255,48 @@ Citizen.CreateThread(function()
         Citizen.Wait(60000) -- Wait for 1 min before checking again
     end
 end)
+
+-- Script Version Checker
+local localVersion = GetResourceMetadata(GetCurrentResourceName(), 'version')
+local fxManifestUrl = "https://raw.githubusercontent.com/Your-Spy/spy-bodycam/main/%5Bspy-bodycam%5D/spy-bodycam/fxmanifest.lua"
+
+local function extractVersion(fxManifestContent)
+    for line in string.gmatch(fxManifestContent, "[^\r\n]+") do
+        if line:find("^version%s+'(.-)'$") then
+            return line:match("^version%s+'(.-)'$")
+        end
+    end
+    return nil
+end
+
+local function checkForUpdates()
+    PerformHttpRequest(fxManifestUrl, function(statusCode, response, headers)
+        print([[^4
+╔───────────────────────────────────────────────────────────────────────╗
+  ____  ______   __          ____   ___  ______   ______    _    __  __ 
+ / ___||  _ \ \ / /         | __ ) / _ \|  _ \ \ / / ___|  / \  |  \/  |
+ \___ \| |_) \ V /   _____  |  _ \| | | | | | \ V / |     / _ \ | |\/| |
+  ___) |  __/ | |   |_____| | |_) | |_| | |_| || || |___ / ___ \| |  | |
+ |____/|_|    |_|           |____/ \___/|____/ |_| \____/_/   \_\_|  |_|
+
+╚───────────────────────────────────────────────────────────────────────╝
+                        ]])
+        if statusCode == 200 then
+            local remoteVersion = extractVersion(response)
+            if remoteVersion and remoteVersion ~= localVersion then
+                print("^2NEW UPDATE: ^2" .. remoteVersion .. "^3 | ^1CURRENT: " .. localVersion.." ^9>> Download new version from github")
+            else
+                print("^2You are on latest version: ^2" .. localVersion)
+            end
+        else
+            print("^1Failed to check for updates. Status code: " .. statusCode)
+        end        
+    end, "GET", "", {["Content-Type"] = "text/plain"})
+end
+
+AddEventHandler('onResourceStart', function(resourceName)
+    if GetCurrentResourceName() == resourceName then
+        checkForUpdates()
+    end
+end)
+
