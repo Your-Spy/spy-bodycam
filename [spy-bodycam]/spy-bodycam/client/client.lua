@@ -90,7 +90,7 @@ RegisterNetEvent('spy-bodycam:startWatchingDashcam',function(netId)
     SetEntityCoords(cache.ped, targetCoords.x, targetCoords.y, targetCoords.z - 100.0)
     if Config.Framework == 'qb' then
         TriggerServerEvent('spy-bodycam:server:ReqDecoyPed',GetPlayerDataCore().citizenid,goBackCoords)
-    elseif Config.Framework == 'esx' or Config.Framework == 'oldesx' then 
+    elseif Config.Framework == 'esx' then 
         TriggerServerEvent('spy-bodycam:server:ReqDecoyPed',GetPlayerDataCore().identifier,goBackCoords)
     end
     Wait(500)
@@ -165,7 +165,7 @@ RegisterNetEvent('spy-bodycam:startWatching',function(targetId)
     SetEntityCoords(cache.ped, targetCoords.x, targetCoords.y, targetCoords.z - 100.0)
     if Config.Framework == 'qb' then
         TriggerServerEvent('spy-bodycam:server:ReqDecoyPed',GetPlayerDataCore().citizenid,goBackCoords)
-    elseif Config.Framework == 'esx' or Config.Framework == 'oldesx' then 
+    elseif Config.Framework == 'esx' then 
         TriggerServerEvent('spy-bodycam:server:ReqDecoyPed',GetPlayerDataCore().identifier,goBackCoords)
     end
     Wait(500)
@@ -949,7 +949,7 @@ end
 
 function BodyOverlay(bool)
     if bool then
-        if Config.Framework == 'qb'  then
+        if Config.Framework == 'qb' then
             local bodyId = GetPlayerServerId(PlayerId())
             local playerName = GetPlayerDataCore().charinfo.firstname .. " " .. GetPlayerDataCore().charinfo.lastname
             local randomBodyNum = "BODY "..bodyId.. " | ".."X"..tostring(math.random(100000, 999999)) .. "N"
@@ -961,7 +961,7 @@ function BodyOverlay(bool)
             })
         else
             local bodyId = GetPlayerServerId(PlayerId())
-            local playerName = GetPlayerDataCore().firstName .. " " .. GetPlayerDataCore().lastName
+            local playerName = lib.callback.await('spy-bodycam:servercb:getNamESX', true)
             local randomBodyNum = "BODY "..bodyId.. " | ".."X"..tostring(math.random(100000, 999999)) .. "N"
             local callsign = "("..GetPlayerDataCore().job.grade_label..") "  .. playerName
             SendNUIMessage({
@@ -970,7 +970,6 @@ function BodyOverlay(bool)
                 callsign = callsign,
             })
         end
-
     else
         SendNUIMessage({
             action = 'close'
@@ -1148,8 +1147,8 @@ function GetPlayerDataCore()
         else
             return false
         end
-    elseif Config.Framework == 'esx' or Config.Framework == 'oldesx' then
-        if ESX.GetPlayerData()then
+    elseif Config.Framework == 'esx' then
+        if ESX.GetPlayerData() then
             return ESX.GetPlayerData()
         else
             return false

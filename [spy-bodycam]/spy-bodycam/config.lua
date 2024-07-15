@@ -7,20 +7,12 @@
 
 Config = Config or {}
 
-Config.Framework = 'qb' -- qb | esx | oldesx
+Config.Framework = 'qb' -- qb | esx 
 
 if Config.Framework == 'qb' then    -- Dont touch this part
     QBCore = exports["qb-core"]:GetCoreObject()
 elseif Config.Framework == 'esx' then
     ESX = exports.es_extended:getSharedObject()
-elseif Config.Framework == 'oldesx' then
-    ESX = nil
-    Citizen.CreateThread(function()
-        while ESX == nil do
-            TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-            Citizen.Wait(0)
-        end
-    end)
 end
 
 Config.Dependency = {                   -- *[ESX SUPPORT IS THROUGH ox_target | ox_lib]

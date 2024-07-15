@@ -23,6 +23,12 @@ lib.callback.register('spy-bodycam:servercb:getCarCoords', function(source, netI
     end
 end)
 
+lib.callback.register('spy-bodycam:servercb:getNamESX', function(source)
+    local xPlayer  = ESX.GetPlayerFromId(source)
+    local Name = xPlayer.getName()
+    if Name then return Name end
+end)
+
 RegisterNetEvent('spy-bodycam:server:toggleList',function(bool)
     local src = source
     if bool then 
@@ -126,7 +132,7 @@ RegisterNetEvent('spy-bodycam:server:ReqDecoyPed', function(cid, pedCoords)
                 handleDecoyPed(joaat(skinData.model), skinData, pedCoords, src)
             end
         end
-    elseif Config.Framework == 'esx' or Config.Framework == 'oldesx' then
+    elseif Config.Framework == 'esx' then
         result = MySQL.single.await("SELECT skin FROM users WHERE identifier = ?", {cid})
         if result then
             local skinData = json.decode(result.skin)
@@ -137,21 +143,23 @@ RegisterNetEvent('spy-bodycam:server:ReqDecoyPed', function(cid, pedCoords)
     end
 end)
 
-if Config.Framework == 'qb' then
-    QBCore.Functions.CreateUseableItem('bodycam', function(source, item)
-        TriggerClientEvent('spy-bodycam:bodycamstatus',source)
-    end)
-    QBCore.Functions.CreateUseableItem('dashcam', function(source, item)
-        TriggerClientEvent('spy-bodycam:toggleCarCam',source)
-    end)
-else
-    ESX.RegisterUsableItem('bodycam', function(playerId) 
-        TriggerClientEvent('spy-bodycam:bodycamstatus', playerId) 
-    end)
-    ESX.RegisterUsableItem('dashcam', function(playerId) 
-        TriggerClientEvent('spy-bodycam:toggleCarCam', playerId) 
-    end)
-end
+Citizen.CreateThread(function()
+    if Config.Framework == 'qb' then
+        QBCore.Functions.CreateUseableItem('bodycam', function(source, item)
+            TriggerClientEvent('spy-bodycam:bodycamstatus',source)
+        end)
+        QBCore.Functions.CreateUseableItem('dashcam', function(source, item)
+            TriggerClientEvent('spy-bodycam:toggleCarCam',source)
+        end)
+    else
+        ESX.RegisterUsableItem('bodycam', function(playerId) 
+            TriggerClientEvent('spy-bodycam:bodycamstatus', playerId) 
+        end)
+        ESX.RegisterUsableItem('dashcam', function(playerId) 
+            TriggerClientEvent('spy-bodycam:toggleCarCam', playerId) 
+        end)
+    end
+end)
 
 RegisterNetEvent('spy-bodycam:server:logVideoDetails', function(videoUrl)
     local src = source
