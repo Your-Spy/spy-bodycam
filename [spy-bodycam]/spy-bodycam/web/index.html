@@ -40,10 +40,48 @@
             <div class="backLabel"><i class="fa-solid fa-video-slash backIcon"></i><span class="backInText">E</span></div>
         </div>
     </div>
+    <div class="recCont">
+        <div class="recMain">
+            <div class="recTitle">
+                <div class="recTitleTxt">Bodycam Recordings</div>
+                <div class="recDesc">POLICE DATABASE</div>
+                <img src="images/brand_logo.png" alt="" class="recLogo">
+            </div>
+            <div class="RecBox">
+                <div class="recInnerScroll"></div>
+            </div>
+            <div class="recFilters">
+                <div class="recSearch">
+                    <div class="searchText"><i class="fas fa-search"></i></div>
+                    <input type="text" class="searchInput" placeholder="Seach Footage...">
+                </div>
+                <div class="recDateF">
+                    <input type="date" class="selectedDate" placeholder="Select Date">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="vidplaycont">
+        <div class="vidMain">
+            <video class="vidPlayer" controls autoplay loop>
+                <source src="https://cdn.discordapp.com/attachments/1257923291512045568/1263565598277763082/video.webm?ex=669ab2aa&is=6699612a&hm=a6afae0dd5179e186a56fecdb506a85f3769ad9db5b33ec14efede37454a1ba7&" type="video/webm">
+            </video>
+            <div class="vidPlayerIcon"><i class="fa-solid fa-circle-xmark"></i></div>
+        </div>
+    </div>
+    <div class="askMain">
+        <div class="askIn">
+            <div class="askIcon"><i class="fa-solid fa-trash fa-bounce"></i></div>
+            <h1 class="askTitle">Are you sure?</h1>
+            <div class="askBtnCont">
+                <div class="askBtn">Yes</div>
+                <div class="askBtn">No</div>
+            </div>
+        </div>
+    </div>
     <audio id="beep-sound" src="audio/on_sound.mp3"></audio>
     <audio id="off-sound" src="audio/off_sound.mp3"></audio>
     <script src="js/jquery-3.7.1.min.js"></script>
     <script type="module" src="js/app.js"></script>
 </body>
-
 </html>

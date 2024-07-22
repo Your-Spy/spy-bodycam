@@ -161,13 +161,14 @@ Citizen.CreateThread(function()
     end
 end)
 
-RegisterNetEvent('spy-bodycam:server:logVideoDetails', function(videoUrl)
+RegisterNetEvent('spy-bodycam:server:logVideoDetails', function(videoUrl,streetName)
     local src = source
     local offName 
     local offJob  
     local offRank 
     local jobKey 
-    
+    local date = os.date('%Y-%m-%d') 
+
     if Config.Framework == 'qb' then 
         local Player = QBCore.Functions.GetPlayer(src)
         offName = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname
@@ -181,35 +182,94 @@ RegisterNetEvent('spy-bodycam:server:logVideoDetails', function(videoUrl)
         offRank = xPlayer.getJob().grade_label
         jobKey = xPlayer.getJob().name
     end
-    
-    local defwebhook
-    local author
-    
-    if Webhook.JobUploads[jobKey] then 
-        defwebhook = Webhook.JobUploads[jobKey].webhook
-        author = Webhook.JobUploads[jobKey].author
-    else
-        defwebhook = Webhook.DefaultHook 
-        author = Webhook.DefaultAuthor
-    end
-    
-    local embedData = {
-        {
-            title = Webhook.Title,
-            color = 16761035, 
-            fields = {
-                { name = "Name:", value = offName, inline = false },
-                { name = "Job:", value = offJob, inline = false },
-                { name = "Job Rank:", value = offRank, inline = false },
-            },
-            footer = {
-                text =  "Date: " .. os.date("!%Y-%m-%d %H:%M:%S", os.time()),
-                icon_url = "https://i.imgur.com/CuSyeZT.png",
-            },
-            author = author
+
+    ---SQL UPLOAD
+    MySQL.Async.execute('INSERT INTO spy_bodycam (job, videolink, street, date, playername) VALUES (@job, @videolink, @street, @date, @playername)', {
+        ['@job'] = jobKey,
+        ['@videolink'] = videoUrl,
+        ['@street'] = streetName,
+        ['@date'] = date,
+        ['@playername'] = offName
+    }, function(rowsChanged) end)
+
+    if Upload.DiscordLogs.Enabled then 
+        local defwebhook
+        local author
+        if Upload.JobUploads[jobKey] then 
+            defwebhook = Upload.JobUploads[jobKey].webhook
+            author = Upload.JobUploads[jobKey].author
+        else
+            defwebhook = Upload.DefaultUploads.webhook
+            author = Upload.DefaultUploads.author
+        end
+        local embedData = {
+            {
+                title = Upload.DiscordLogs.Title,
+                color = 16761035, 
+                fields = {
+                    { name = "Name:", value = offName, inline = false },
+                    { name = "Job:", value = offJob, inline = false },
+                    { name = "Job Rank:", value = offRank, inline = false },
+                },
+                footer = {
+                    text =  "Date: " .. os.date("!%Y-%m-%d %H:%M:%S", os.time()),
+                    icon_url = "https://i.imgur.com/CuSyeZT.png",
+                },
+                author = author
+            }
         }
-    }
-    PerformHttpRequest(defwebhook, function() end, 'POST', json.encode({ username = Webhook.Username, embeds = embedData}), { ['Content-Type'] = 'application/json' })
+        PerformHttpRequest(defwebhook, function() end, 'POST', json.encode({ username = Upload.DiscordLogs.Username, embeds = embedData}), { ['Content-Type'] = 'application/json' })
+    end
+end)
+
+RegisterNetEvent('spy-bodycam:server:deleteVideoDB', function(videoUrl)
+    local src = source
+    if not videoUrl or videoUrl == '' then return end
+    MySQL.Async.execute('DELETE FROM spy_bodycam WHERE videolink = @videolink', {
+        ['@videolink'] = videoUrl
+    }, function(rowsChanged)
+        if rowsChanged > 0 then
+            local jobKey
+            local isBoss 
+            if Config.Framework == 'qb' then 
+                local Player = QBCore.Functions.GetPlayer(src)
+                jobKey = Player.PlayerData.job.name
+                isBoss = Player.PlayerData.job.isboss
+            else
+                local xPlayer = ESX.GetPlayerFromId(src)
+                jobKey = xPlayer.getJob().name
+                isBoss = (xPlayer.getJob().grade_name == 'boss')
+            end
+            MySQL.Async.fetchAll('SELECT * FROM spy_bodycam WHERE job = @job ORDER BY id DESC', {
+                ['@job'] = jobKey
+            }, function(records)
+                TriggerClientEvent('spy-bodycam:client:refreshRecords', src, records, isBoss)
+            end)    
+        end
+    end)
+end)
+
+RegisterNetEvent('spy-bodycam:server:showrecordingUI', function()
+    local src = source
+    local offJob   
+    local jobKey
+    local isBoss 
+    if Config.Framework == 'qb' then 
+        local Player = QBCore.Functions.GetPlayer(src)
+        offJob = Player.PlayerData.job.label
+        jobKey = Player.PlayerData.job.name
+        isBoss = Player.PlayerData.job.isboss
+    else
+        local xPlayer  = ESX.GetPlayerFromId(src)
+        offJob = xPlayer.getJob().label
+        jobKey = xPlayer.getJob().name
+        if xPlayer.getJob().grade_name == 'boss' then isBoss = true else isBoss = false end
+    end
+    MySQL.Async.fetchAll('SELECT * FROM spy_bodycam WHERE job = @job ORDER BY id DESC', {
+        ['@job'] = jobKey
+    }, function(records)
+        TriggerClientEvent('spy-bodycam:client:openRecords', src, records, offJob, isBoss)
+    end)    
 end)
 
 lib.addCommand('recordcam', {
@@ -218,25 +278,28 @@ lib.addCommand('recordcam', {
 }, function(source, args, raw)
     local src = source
     if PlayerOnBodycam[src] then
-        local jobKey 
-        if Config.Framework == 'qb' then 
-            local Player = QBCore.Functions.GetPlayer(src)
-            jobKey = Player.PlayerData.job.name
-        else
-            local xPlayer  = ESX.GetPlayerFromId(src)
-            jobKey = xPlayer.getJob().name
-        end
         local defwebhook
-        if Webhook.JobUploads[jobKey] then 
-            defwebhook = Webhook.JobUploads[jobKey].webhook
-        else
-            defwebhook = Webhook.DefaultHook 
+        if Upload.ServiceUsed == 'discord' then
+            local jobKey 
+            if Config.Framework == 'qb' then 
+                local Player = QBCore.Functions.GetPlayer(src)
+                jobKey = Player.PlayerData.job.name
+            else
+                local xPlayer  = ESX.GetPlayerFromId(src)
+                jobKey = xPlayer.getJob().name
+            end
+            if Upload.JobUploads[jobKey] then 
+                defwebhook = Upload.JobUploads[jobKey].webhook
+            else
+                defwebhook = Upload.DefaultUploads.webhook
+            end
+        elseif Upload.ServiceUsed == 'fivemanage' or Upload.ServiceUsed == 'fivemerr'  then
+            defwebhook = Upload.Token
         end
-        TriggerClientEvent('spy-bodycam:client:startRec',src,defwebhook)
+        TriggerClientEvent('spy-bodycam:client:startRec',src,defwebhook,Upload.ServiceUsed)
     else
         NotifyPlayerSv('Bodycam not turned on!','error',3000,src)
     end
-
 end)
 
 function NotifyPlayerSv(msg,type,time,src)

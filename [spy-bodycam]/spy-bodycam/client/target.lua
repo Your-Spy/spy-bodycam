@@ -19,6 +19,18 @@ CreateThread(function()
 						end,
 						
 					},
+					{
+						type = "client",
+						icon = "fas fa-list",
+						label = 'Records Database',
+						action = function(entity)
+							TriggerServerEvent('spy-bodycam:server:showrecordingUI') 
+						  end,
+						canInteract = function(entity)
+							return targetAuth(k,PlayerJob.name)
+						end,
+						
+					},
 				},
 				distance = 2.5
 			 })
@@ -43,7 +55,19 @@ CreateThread(function()
 							canInteract = function(entity, distance, coords, name, bone)
 								return targetAuth(k,PlayerJob.name)
 							end,
-						}
+						},
+						{
+							name = "spycam_watch"..k,
+							label = 'Records Database',
+							icon = "fas fa-list",
+							distance = 2.5,
+							onSelect = function(data)
+								TriggerServerEvent('spy-bodycam:server:showrecordingUI') 
+							end,
+							canInteract = function(entity, distance, coords, name, bone)
+								return targetAuth(k,PlayerJob.name)
+							end,
+						},
 					}
 				}
 			)

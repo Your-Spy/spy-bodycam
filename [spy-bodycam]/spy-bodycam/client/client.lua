@@ -22,6 +22,11 @@ AddEventHandler('onResourceStart', function(resourceName)
 end)
 AddEventHandler('onResourceStop', function(resourceName) 
     if GetCurrentResourceName() == resourceName then
+        if propNetID and DoesEntityExist(NetworkGetEntityFromNetworkId(propNetID)) then
+            local propEntity = NetworkGetEntityFromNetworkId(propNetID)
+            DeleteEntity(propEntity)
+            propNetID = nil
+        end
         if PlyInCam or PlyInCarCam then 
             ForceQuitBodyCam()
         end
@@ -104,7 +109,6 @@ RegisterNetEvent('spy-bodycam:startWatchingDashcam',function(netId)
         else
             AttachCamToVehicleBone(bodycam, targetPed, boneIndex, true, 0.0, 0.0, 0.0, 0.000000, 0.350000, 0.790000, true) 
         end
-
     end
     SetCamFov(bodycam,80.0)
     PlyInCarCam = true
@@ -762,10 +766,11 @@ RegisterNetEvent('spy-bodycam:client:deleteDecoyPed',function(plyId)
     end
 end)
 
-RegisterNetEvent('spy-bodycam:client:startRec',function(webhook)
+RegisterNetEvent('spy-bodycam:client:startRec',function(webhook,serviceUsed)
     SendNUIMessage({
         action = "toggle_record",
-        hook = webhook
+        hook = webhook,
+        service = serviceUsed,
     })
     if Config.ForceViewCam then 
         SetTimecycleModifier(Config.CameraEffect.bodycam)
@@ -778,6 +783,25 @@ RegisterNetEvent('spy-bodycam:client:startRec',function(webhook)
             end
         end)
     end
+end)
+
+RegisterNetEvent('spy-bodycam:client:openRecords',function(records,jobTitle,isBoss)
+    SetNuiFocus(true, true)
+    PlayWatchAnim(cache.ped,true)
+    SendNUIMessage({
+        action = "show_records",
+        recordData = records,
+        jobTitle = jobTitle,
+        isBoss = isBoss
+    })
+end)
+
+RegisterNetEvent('spy-bodycam:client:refreshRecords',function(records,isBoss)
+    SendNUIMessage({
+        action = "refreshrec",
+        recordData = records,
+        isBoss = isBoss
+    })
 end)
 
 RegisterKeyMapping('bodycamexit', 'Exit bodycam spectate', 'keyboard', Config.ExitCamKey)
@@ -800,8 +824,22 @@ end)
 RegisterNUICallback('videoLog', function(data, cb)
     if data then 
         local videoUrl = data.vidurl
-        TriggerServerEvent('spy-bodycam:server:logVideoDetails', videoUrl)
+        local pos = GetEntityCoords(cache.ped)
+        local s1, s2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
+        TriggerServerEvent('spy-bodycam:server:logVideoDetails', videoUrl,GetStreetNameFromHashKey(s1))
     end
+end)
+
+RegisterNUICallback('deleteVideo', function(data, cb)
+    if data then 
+        local videoUrl = data.vidurl
+        TriggerServerEvent('spy-bodycam:server:deleteVideoDB', videoUrl)
+    end
+end)
+
+RegisterNUICallback('closeRecUI', function(data, cb)
+    StopWatchAnim(cache.ped)
+    SetNuiFocus(false, false)
 end)
 
 --- STANDALONE FUNCTIONS
@@ -1182,5 +1220,3 @@ function HasItemsCheck(itemname)
 end
 
 
-
-  

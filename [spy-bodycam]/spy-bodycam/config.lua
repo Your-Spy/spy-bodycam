@@ -15,13 +15,13 @@ elseif Config.Framework == 'esx' then
     ESX = exports.es_extended:getSharedObject()
 end
 
-Config.Dependency = {                   -- *[ESX SUPPORT IS THROUGH ox_target | ox_lib]
+Config.Dependency = {                   
     UseTarget = 'qb',                   -- qb | ox
     UseInventory = 'qb',                -- qb | ox | esx             
     UseProgress = 'qb',                 -- qb | ox | esx                  
     UseMenu = 'qb',                     -- qb | ox | esx 
     UseNotify = 'qb',                   -- qb | ox | esx
-    UseAppearance = 'illenium',         -- qb | illenium | false 
+    UseAppearance = 'qb',         -- qb | illenium | false 
 }
 
 Config.ExitCamKey = 'BACK' 
@@ -74,6 +74,7 @@ Config.VehCamOffset = {
     -- [`18chgr2`] = {0.000000, 0.510000, 0.630000},  -- Example vehicle. The script comes with its own offset finder just set DebugCamera to true and get the offset.
     -- [`vehiclespawncode`] = {0.000000, 0.510000, 0.630000},
 }
+
 -- Vehicle Classes:  
 -- 0: Compacts  
 -- 1: Sedans  

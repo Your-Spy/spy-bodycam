@@ -1,9 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fjalla+One&family=PT+Sans+Narrow:wght@400;700&family=Play:wght@400;700&display=swap');
 * {
     box-sizing: border-box;
     margin: 0%;
     padding: 0%;
+    user-select: none;
 }
 
 .overlayCont{
@@ -153,4 +155,297 @@
 
 .popOut {
     animation: popOut 0.5s forwards;
+}
+
+.recCont{
+    position: absolute;
+    left: 10%;
+    top: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.recMain{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 80vw;
+    height: 80vh;
+    color: white;
+}
+
+.recTitleTxt{
+    font-family: "Bebas Neue", sans-serif;
+    font-style: italic;
+    font-size: 3rem;
+}
+.recTitle img{
+    position: absolute;
+    margin-top: 9px;
+    margin-right: 20px;
+    width: 100px;
+    right: 0%;
+    top: 0%;
+}
+.recTitle{
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-bottom: 0.5rem;
+    background: #353b48;
+    box-shadow: -2px 0px 46px -9px rgba(0, 0, 0, 0.644) inset, 0px 4px 8px rgba(0, 0, 0, 0.418);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.recDesc{
+    font-family: "PT Sans Narrow", sans-serif;
+    font-style: italic;
+    font-size: 1.3rem;
+}
+.RecBox {
+    display: flex;
+    width: 100%;
+    height: 63vh;
+    background: #101522;
+    box-shadow: -1px 15px 13px -1px rgba(0,0,0,0.5) inset, 0px -13px 13px -1px rgba(0,0,0,0.5) inset;
+}
+.recInnerScroll{
+    display: flex;
+    align-self: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    height: 55vh;
+    overflow-x: hidden;
+    overflow-y: auto; 
+}
+
+.recInnerScroll::-webkit-scrollbar {
+    width: 3px;
+}
+.recInnerScroll::-webkit-scrollbar-thumb {
+    background: #353b48; 
+    border-radius: 10px; 
+}
+
+.recInnerScroll::-webkit-scrollbar-thumb:hover {
+    background: #242931; 
+}
+
+.camBox{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    background: linear-gradient(180deg,#353b48 0%, #23272f 80%);
+    box-shadow: 2px 2px 13px 7px rgba(0, 0, 0, 0.171) inset, -1px 7px 13px -4px rgba(0,0,0,0.42);
+    border-radius: 3px;
+    padding: 10px;
+    border: 1px solid #c9cacc18;
+    transition: all 0.3s ease;
+}
+
+.camShow:hover{
+    color: #ffffff;
+    text-shadow: 4px 1px 5px rgba(0, 0, 0, 0.315);
+}
+.camDelete:hover{
+    color: #ca3333;
+    text-shadow: 4px 1px 5px rgba(0, 0, 0, 0.315);
+}
+.camBox:hover{
+    box-shadow: 2px 2px 13px 7px rgba(0, 0, 0, 0.411) inset,-1px 9px 13px -4px rgba(0,0,0,0.5);
+    border: 1px solid #c9cacc3f;
+}
+.camIcons{
+    color: #999999;
+    display:flex ;
+    align-items: center;
+    gap: 20px;
+    font-size: 1.4rem;
+    text-shadow: 4px 1px 5px rgba(0, 0, 0, 0.123);
+    cursor: pointer;
+}
+.camDesc{
+    font-family: "Play", sans-serif;
+}
+.camTitle{
+    font-size: 1.4rem;
+    font-family: "Fjalla One", sans-serif;
+}
+.camStreet{
+    color: rgb(170, 170, 170);
+    font-size: 0.9rem;
+    font-family: "Fjalla One", sans-serif;
+    font-style: italic;
+}
+.recFilters {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 5rem;
+    padding: 0 1rem;
+    color: white; 
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: #353b48;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.418); 
+}
+
+.recSearch {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; 
+}
+
+.searchText i {
+    margin-right: 0.5rem; 
+}
+
+.searchInput {
+    height: 2rem; 
+    padding: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    background-color: #2f3640; 
+    color: white; 
+    font-size: 1rem; 
+    font-family: "Play", sans-serif;
+}
+
+.recDateF {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; 
+    font-size: 1rem;
+    color: white; 
+    font-family: "Play", sans-serif;
+    
+}
+
+.selectedDate {
+    padding: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    background-color: #2f3640; 
+    font-size: 1rem; 
+    font-family: "Play", sans-serif;
+    color: white; 
+}
+
+.selectedDate::-webkit-calendar-picker-indicator {
+    filter: invert(1); 
+}
+
+.vidplaycont {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+}
+
+.vidMain {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(180deg,#353b48 0%, #23272f 80%);
+    border-radius: 5px;
+    width: 63vw;
+    height: 60vh;
+    padding: 1rem;
+    margin-top: 2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.vidPlayer {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); 
+    object-fit: contain;
+}
+
+.vidPlayerIcon {
+    position: absolute;
+    color: rgb(255, 255, 255);
+    font-size: 1.5rem;
+    top: 19px;
+    right: 17px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.vidPlayerIcon:hover {
+    color: #ca3333; 
+}
+
+.askMain{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80vw;
+    height: 80vh;
+    left: 10%;
+    top: 10%;
+}
+.askIn{
+    background: linear-gradient(180deg,#353b48 0%, #23272f 80%);
+    box-shadow: 2px 2px 13px 7px rgba(0, 0, 0, 0.171) inset, -1px 7px 13px -4px rgba(0,0,0,0.42);
+    border: 1px solid #c9cacc18;
+    padding: 2rem;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    text-align: center; 
+    transition: all 0.3s ease;
+}
+.askIn:hover{
+    box-shadow: 2px 2px 13px 7px rgba(0, 0, 0, 0.411) inset,-1px 9px 13px -4px rgba(0,0,0,0.5);
+    border: 1px solid #c9cacc3f;
+}
+
+.askIcon{
+    font-size: 1.4rem;
+    color: #ca3333;
+    margin-bottom: 0.2rem; 
+}
+
+.askBtnCont{
+    display: flex;
+    justify-content: space-around; 
+    width: 100%; 
+    gap: 10px;
+}
+
+.askBtn{
+    color: white;
+    font-size: 1.4rem;
+    font-family: "Play", sans-serif;
+    background: #1015225d;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer; 
+}
+.askBtn:hover{
+    background: #101522bb;
+}
+.askTitle{
+    color: white;
+    font-size: 1.4rem;
+    font-family: "Fjalla One", sans-serif;
+    margin: 1rem 0; 
+}
+.noRecAv{
+    color: rgba(255, 255, 255, 0.26);
+    font-size: 3rem;
+    font-family: "Fjalla One", sans-serif;
 }

@@ -3,7 +3,7 @@ fx_version 'cerulean'
 game "gta5"
 
 author "Spy-Script"
-version '2.0.5'
+version '2.5.0'
 
 lua54 'yes'
 
@@ -12,7 +12,6 @@ ui_page 'web/index.html'
 shared_script {
   "config.lua",
   '@ox_lib/init.lua',
-
 }
 
 server_script {
