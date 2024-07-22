@@ -24,7 +24,7 @@ Make sure to have the following dependencies installed:
 2. Install the required dependencies.
 3. Drag and drop in resources folder and add in server.cfg.
 4. Setup the config as per your framework.
-5. Add the item images to your inventory.
+5. Add the item images in installfiles folder to your inventory.
 
 ![Bodycam Image](https://i.imgur.com/CuSyeZT.png)
 ![Dashcam Image](https://i.imgur.com/TVx1mcn.png)
@@ -46,6 +46,20 @@ Make sure to have the following dependencies installed:
 INSERT INTO `items` (`name`, `label`, `weight`, `rare`, `can_remove`) VALUES ('bodycam', 'Bodycam', 1, 0, 1);
 INSERT INTO `items` (`name`, `label`, `weight`, `rare`, `can_remove`) VALUES ('dashcam', 'Dashcam', 1, 0, 1);
 ```
+7. Run the sql file in installfiles folder
+```sql
+CREATE TABLE IF NOT EXISTS `spy_bodycam` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `job` varchar(255) NOT NULL,
+  `videolink` longtext NOT NULL,
+  `street` varchar(255) NOT NULL,
+  `date` varchar(255) NOT NULL,
+  `playername` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+```
+You have now successfully installed spy-bodycam
+
 ## Features
 - **Overlay GTA6-like Bodycam**: Provides an immersive bodycam overlay with sounds.
 - **Watch Other Players' Bodycam**: Monitor the bodycam footage of other players in real-time.
