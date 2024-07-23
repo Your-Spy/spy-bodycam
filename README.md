@@ -58,7 +58,20 @@ CREATE TABLE IF NOT EXISTS `spy_bodycam` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 ```
-You have now successfully installed spy-bodycam
+### Setup Fivemerr or Fivemanage
+
+1. Set the `Upload.ServiceUsed` to the desired service in `server/upload_config.lua`:
+    ```lua
+    Upload.ServiceUsed = 'fivemerr' -- or 'fivemanage'
+    ```
+
+2. Create a video-only token and set it in the `Upload.Token` field in `server/upload_config.lua`:
+    ```lua
+    Upload.Token = 'YOUR_TOKEN'
+    ```
+
+Once you have completed these steps, the configuration is finished.
+
 
 ## Features
 - **Overlay GTA6-like Bodycam**: Provides an immersive bodycam overlay with sounds.
