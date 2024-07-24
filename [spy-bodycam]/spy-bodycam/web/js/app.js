@@ -95,7 +95,7 @@ $(document).ready(function () {
                 isRecording = true;
                 $('.HeadText').html('<i class="fa-solid fa-circle fa-fade bodyIcon" style="color: rgb(173, 8, 8);"></i>' + 'Recording Started');
                 $('.RecordInfo').fadeIn();
-                startRecording(data.hook,data.service);
+                startRecording(data.hook, data.service);
                 recordingTimeout = setTimeout(() => {
                     if (isRecording) {
                         // Stop recording automatically after 30 seconds
@@ -106,7 +106,7 @@ $(document).ready(function () {
                         }, 2000);
                         stopRecording();
                     }
-                }, 30000);
+                }, data.recTiming * 1000);
             } else {
                 // Stop recording
                 isRecording = false;
@@ -188,95 +188,98 @@ $(document).ready(function () {
                 $('.recCont').show();
             }
         }
+    });
 
-        // SEARCH AND DATE FILTERS :)
-        function updateVisibility(searchText) {
-            $('.camBox').each(function () {
-                var camTitleText = $(this).find('.camTitle').text().toLowerCase();
-                var camDescDate = $(this).find('.camDesc').text().trim().replace('Date: ', '');
-                if ((searchText === '' || camTitleText.includes(searchText)) &&
-                    ($(this).css('display') !== 'none' || camDescDate === $('.selectedDate').val())
-                ) {
-                    $(this).show();
-                }
-                else if ((searchText === '' || camTitleText.includes(searchText)) &&
-                    ($('.selectedDate').val() === '')
-                ) {
-                    $(this).show();
-                } else {
-                    $(this).hide();
-                }
-            });
-        }
-        $('.searchInput').on('input', function () {
-            var searchText = $(this).val().toLowerCase();
-            updateVisibility(searchText);
-        });
-        $('.selectedDate').on('change', function () {
-            var selectedDate = $(this).val();
-            $('.camBox').each(function () {
-                var camDescDate = $(this).find('.camDesc').text().trim().replace('Date: ', '');
-                if (selectedDate === '') {
-                    $(this).show();
-                } else if (selectedDate === camDescDate) {
-                    $(this).show();
-                } else {
-                    $(this).hide();
-                }
-            });
-            var searchText = $('.searchInput').val().toLowerCase();
-            updateVisibility(searchText);
-        });
+    let deleteUrl = '';
 
-
-        let deleteUrl = '';
-        $('.camDelete').on('click', function () {
-            const camBox = $(this).closest('.camBox');
-            deleteUrl = camBox.find('.camShow').data('stored');
-            $('.askMain').fadeIn();
-        });
-
-        $('.askBtn:nth-child(1)').on('click', function () {
-            $('.askMain').fadeOut();
-            if (deleteUrl) {
-                $.post(`https://${GetParentResourceName()}/deleteVideo`, JSON.stringify({
-                    vidurl: deleteUrl
-                }));
+    // SEARCH AND DATE FILTERS :)
+    function updateVisibility(searchText) {
+        $('.camBox').each(function () {
+            var camTitleText = $(this).find('.camTitle').text().toLowerCase();
+            var camDescDate = $(this).find('.camDesc').text().trim().replace('Date: ', '');
+            if ((searchText === '' || camTitleText.includes(searchText)) &&
+                ($(this).css('display') !== 'none' || camDescDate === $('.selectedDate').val())
+            ) {
+                $(this).show();
+            }
+            else if ((searchText === '' || camTitleText.includes(searchText)) &&
+                ($('.selectedDate').val() === '')
+            ) {
+                $(this).show();
+            } else {
+                $(this).hide();
             }
         });
+    }
 
-        $('.askBtn:nth-child(2)').on('click', function () {
-            $('.askMain').fadeOut();
-        });
+    $('.searchInput').on('input', function () {
+        var searchText = $(this).val().toLowerCase();
+        updateVisibility(searchText);
+    });
 
-        $('.camShow').on('click', function () {
-            var videoUrl = $(this).data('stored');
-            $('.vidPlayer').attr('src', videoUrl);
-            $('.vidplaycont').show();
+    $('.selectedDate').on('change', function () {
+        var selectedDate = $(this).val();
+        $('.camBox').each(function () {
+            var camDescDate = $(this).find('.camDesc').text().trim().replace('Date: ', '');
+            if (selectedDate === '') {
+                $(this).show();
+            } else if (selectedDate === camDescDate) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
         });
-        $('.vidPlayerIcon').on('click', function () {
+        var searchText = $('.searchInput').val().toLowerCase();
+        updateVisibility(searchText);
+    });
+
+    $(document).on('click', '.camDelete', function () {
+        const camBox = $(this).closest('.camBox');
+        deleteUrl = camBox.find('.camShow').data('stored');
+        $('.askMain').fadeIn();
+    });
+
+    $(document).on('click', '.askBtn:nth-child(1)', function () {
+        $('.askMain').fadeOut();
+        if (deleteUrl) {
+            $.post(`https://${GetParentResourceName()}/deleteVideo`, JSON.stringify({
+                vidurl: deleteUrl
+            }));
+        }
+    });
+
+    $(document).on('click', '.askBtn:nth-child(2)', function () {
+        $('.askMain').fadeOut();
+    });
+
+    $(document).on('click', '.camShow', function () {
+        var videoUrl = $(this).data('stored');
+        $('.vidPlayer').attr('src', videoUrl);
+        $('.vidplaycont').show();
+    });
+
+    $(document).on('click', '.vidPlayerIcon', function () {
+        $('.vidplaycont').hide();
+        $('.vidPlayer').attr('src', '');
+    });
+
+    $(document).on('click', function (event) {
+        if ($(event.target).is('.vidplaycont')) {
             $('.vidplaycont').hide();
             $('.vidPlayer').attr('src', '');
-        });
-        $(window).on('click', function (event) {
-            if ($(event.target).is('.vidplaycont')) {
-                $('.vidplaycont').hide();
-                $('.vidPlayer').attr('src', '');
-            }
-        });
+        }
+    });
 
-        $(document).on('keydown', function (e) {
-            if (e.which === 27) {
-                $('.askMain').hide();
-                $('.searchInput').val('');
-                $('.selectedDate').val('');
-                $('.recCont').hide();
-                $('.vidplaycont').hide();
-                $('.vidPlayer').attr('src', '');
-                $.post(`https://${GetParentResourceName()}/closeRecUI`, '{}');
-            }
-        });
-
+    $(document).on('keydown', function (e) {
+        if (e.which === 27) {
+            $('.askMain').hide();
+            $('.searchInput').val('');
+            $('.selectedDate').val('');
+            $('.recCont').hide();
+            $('.vidplaycont').hide();
+            $('.vidPlayer').attr('src', '');
+            $.post(`https://${GetParentResourceName()}/closeRecUI`, '{}');
+        }
     });
 });
 
@@ -351,7 +354,7 @@ async function uploadBlob(videoBlob, hook, service) {
     }
 }
 
-function startRecording(hook,service) {
+function startRecording(hook, service) {
     const gameView = gameview.createGameView(canvasElement);
     const videoStream = canvasElement.captureStream(30);
     const videoChunks = [];
