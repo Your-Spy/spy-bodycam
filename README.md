@@ -58,7 +58,20 @@ CREATE TABLE IF NOT EXISTS `spy_bodycam` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 ```
-You have now successfully installed spy-bodycam
+### Setup Fivemerr or Fivemanage
+
+1. Set the `Upload.ServiceUsed` to the desired service in `server/upload_config.lua`:
+    ```lua
+    Upload.ServiceUsed = 'fivemerr' -- or 'fivemanage'
+    ```
+
+2. Create a video-only token and set it in the `Upload.Token` field in `server/upload_config.lua`:
+    ```lua
+    Upload.Token = 'YOUR_TOKEN'
+    ```
+
+Once you have completed these steps, the configuration is finished.
+
 
 ## Features
 - **Overlay GTA6-like Bodycam**: Provides an immersive bodycam overlay with sounds.
@@ -70,6 +83,7 @@ You have now successfully installed spy-bodycam
 - **Vehicle Dashcam Support**: You can now use a dashcam item to activate car cameras, which can be viewed anytime, no matter where the vehicle is in real-time.
 - **Cam Offset System for Vehicles**: You can now adjust individual vehicle cameras if their positioning is bad with the built-in offset finder.
 - **Highly Requested Record Feature**: Added a realistic record cam feature that can be used with /recordcam. This sends the video to a Discord channel with a detailed player log.
+- **Ingame Recording Viewer**: A custom UI to watch recordings of player real time inside the game.
 
 ## Credits
 Special thanks to aarjey0_0 for creating the custom prop included with this script.
