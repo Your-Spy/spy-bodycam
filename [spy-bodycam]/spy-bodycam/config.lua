@@ -21,7 +21,7 @@ Config.Dependency = {
     UseProgress = 'qb',                 -- qb | ox | esx                  
     UseMenu = 'qb',                     -- qb | ox | esx 
     UseNotify = 'qb',                   -- qb | ox | esx
-    UseAppearance = 'qb',         -- qb | illenium | false 
+    UseAppearance = 'qb',               -- qb | illenium | false 
 }
 
 Config.ExitCamKey = 'BACK' 
@@ -31,7 +31,8 @@ Config.CameraEffect = {
     dashcam = 'TinyRacerMoBlur',
 } 
 
-Config.ForceViewCam = true     -- Forces cam view to first person when recording.
+Config.ForceViewCam = false     -- Forces cam view to first person when recording.
+Config.RecordTime = 30          --Recording Time | 30 = 30 seconds | [*note: Dont increase the time too much or it may not upload to any service you are using for example - discord.]
 
 Config.PropLoc = {  -- Change prop position according to ur clothing pack.
     male = {
