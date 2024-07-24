@@ -771,6 +771,7 @@ RegisterNetEvent('spy-bodycam:client:startRec',function(webhook,serviceUsed)
         action = "toggle_record",
         hook = webhook,
         service = serviceUsed,
+        recTiming = Config.RecordTime,
     })
     if Config.ForceViewCam then 
         SetTimecycleModifier(Config.CameraEffect.bodycam)
