@@ -3,7 +3,7 @@ fx_version 'cerulean'
 game "gta5"
 
 author "Spy-Script"
-version '2.5.1'
+version '2.5.5'
 
 lua54 'yes'
 

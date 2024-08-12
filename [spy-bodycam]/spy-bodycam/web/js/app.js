@@ -284,6 +284,7 @@ $(document).ready(function () {
 });
 
 let mediaRecorder;
+let audioStream;
 const canvasElement = document.querySelector('canvas');
 
 async function uploadBlob(videoBlob, hook, service) {
@@ -301,11 +302,7 @@ async function uploadBlob(videoBlob, hook, service) {
                 body: formData,
             });
             if (!response.ok) {
-                if (response.status === 401) {
-                    throw new Error(`Failed to upload video to FiveManage: SET TOKEN PROPERLY IN upload_config.lua | ${response.status}`);
-                } else {
-                    throw new Error(`Failed to upload video to FiveManage: ${response.status}`);
-                }
+                throw new Error(`Failed to upload video to FiveManage: ${response.status}`);
             }
             responseData = await response.json();
             $.post(`https://${GetParentResourceName()}/videoLog`, JSON.stringify({
@@ -321,11 +318,7 @@ async function uploadBlob(videoBlob, hook, service) {
                 body: formData,
             });
             if (!response.ok) {
-                if (response.status === 401) {
-                    throw new Error(`Failed to upload video to Fivemerr: SET TOKEN PROPERLY IN upload_config.lua | ${response.status}`);
-                } else {
-                    throw new Error(`Failed to upload video to Fivemerr: ${response.status}`);
-                }
+                throw new Error(`Failed to upload video to Fivemerr: ${response.status}`);
             }
             responseData = await response.json();
             $.post(`https://${GetParentResourceName()}/videoLog`, JSON.stringify({
@@ -338,11 +331,7 @@ async function uploadBlob(videoBlob, hook, service) {
                 body: formData,
             });
             if (!response.ok) {
-                if (response.status === 404) {
-                    throw new Error(`Failed to upload video to Discord: SET WEBHOOK PROPERLY IN upload_config.lua | ${response.status}`);
-                } else {
-                    throw new Error(`Failed to upload video to Discord: ${response.status} ${response.statusText}`);
-                }
+                throw new Error(`Failed to upload video to Discord: ${response.status}`);
             }
             responseData = await response.json();
             $.post(`https://${GetParentResourceName()}/videoLog`, JSON.stringify({
@@ -354,18 +343,46 @@ async function uploadBlob(videoBlob, hook, service) {
     }
 }
 
-function startRecording(hook, service) {
+async function startMicrophoneCapture() {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        return stream;
+    } catch (error) {
+        console.error('Microphone capture failed. Recording video only.');
+        return null;
+    }
+}
+
+async function startRecording(hook, service) {
+    audioStream = await startMicrophoneCapture();
+    if (!isRecording){
+        if (audioStream) {
+            audioStream.getAudioTracks().forEach(track => track.stop());
+        }
+        return 
+    }
+    console.log('Video Recording Started');
     const gameView = gameview.createGameView(canvasElement);
-    const videoStream = canvasElement.captureStream(30);
+    const canvasStream = canvasElement.captureStream(30);
+
+    // Combine audio and video streams
+    const combinedStream = new MediaStream([
+        ...canvasStream.getVideoTracks(),
+        ...(audioStream ? audioStream.getAudioTracks() : [])
+    ]);
+
     const videoChunks = [];
     window.gameView = gameView;
-    mediaRecorder = new MediaRecorder(videoStream, { mimeType: 'video/webm;codecs=vp9' });
+    mediaRecorder = new MediaRecorder(combinedStream, { mimeType: 'video/webm;codecs=vp9' });
     mediaRecorder.start();
     mediaRecorder.ondataavailable = (e) => e.data.size > 0 && videoChunks.push(e.data);
     mediaRecorder.onstop = async () => {
         const videoBlob = new Blob(videoChunks, { type: 'video/webm' });
         if (videoBlob.size > 0) {
             uploadBlob(videoBlob, hook, service);
+        }
+        if (audioStream) {
+            audioStream.getAudioTracks().forEach(track => track.stop());
         }
     };
 }
