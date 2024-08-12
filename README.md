@@ -84,7 +84,7 @@ Once you have completed these steps, the configuration is finished.
 - **Cam Offset System for Vehicles**: You can now adjust individual vehicle cameras if their positioning is bad with the built-in offset finder.
 - **Highly Requested Record Feature**: Added a realistic record cam feature that can be used with /recordcam. This sends the video to a Discord channel with a detailed player log.
 - **Ingame Recording Viewer**: A custom UI to watch recordings of player real time inside the game.
-- **Captures User Mic**: Now added support with microphone capture with video recordings.
+- **Captures User Mic**: Supports microphone capture with video recordings.
 
 ## Showcase
 ![dashcam](https://i.imgur.com/4pHD1Rn.png)
