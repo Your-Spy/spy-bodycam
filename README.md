@@ -86,6 +86,11 @@ Once you have completed these steps, the configuration is finished.
 - **Ingame Recording Viewer**: A custom UI to watch recordings of player real time inside the game.
 - **Captures User Mic**: Now added support with microphone capture with video recordings.
 
+## Showcase
+![dashcam](https://i.imgur.com/4pHD1Rn.png)
+![bodycam](https://i.imgur.com/FjTAfq7.png)
+![recordview](https://i.imgur.com/ASROJVg.png)
+
 ## Credits
 Special thanks to aarjey0_0 for creating the custom prop included with this script.
 Feel free to customize the script further to fit your server's needs and ensure all dependencies are up to date for smooth operation.
