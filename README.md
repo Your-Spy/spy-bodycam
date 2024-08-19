@@ -99,7 +99,6 @@ Credit to @felipecoder for the fivem game view for recording!
 
 ## Feedback and Support
 I welcome any feedback or suggestions. If you encounter any issues or need support, please don't hesitate to reach out on the Discord server mentioned above.
-
 Happy roleplaying!
 
 
