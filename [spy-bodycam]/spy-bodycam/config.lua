@@ -57,8 +57,8 @@ Config.AllowedClass = {18} -- Vehicle classes allowed to use the dashcam feature
 Config.WatchLoc = {
     [1] = {
         coords = vector3(440.149445, -979.437378, 30.453491), 
-        rad = 0.3, 
-        debug= false,
+        rad = 1.5, 
+        debug = false,
         jobCam = {'police','ambulance'},  -- jobs mentioned here are shown in the list | false = able to view all the bodycams
         carCam = {                        -- false = able to view all the dashcams
             job = {'police'},             -- Jobs that activate dashcams shown in the list | false excludes.
