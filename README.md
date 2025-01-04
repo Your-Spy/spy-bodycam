@@ -38,8 +38,14 @@ Make sure to have the following dependencies installed:
 ```
 ### OX
 ```lua
-['bodycam'] = { label = 'Bodycam', weight = 500, stack = false, close = true },
-['dashcam'] = { label = 'Dashcam', weight = 500, stack = false, close = true },
+    ["bodycam"] = {
+        label = "bodycam", weight = 0, stack = false, close = true, description = "Bodycam",
+        client = { image = "bodycam.png", event = "spy-bodycam:bodycamstatus" }
+    },
+    ["dashcam"] = {
+        label = "dashcam", weight = 0, stack = false, close = true, description = "dashcam",
+        client = { image = "dashcam.png", event = "spy-bodycam:toggleCarCam" }
+    },
 ```
 ### ESX
 ```lua
