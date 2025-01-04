@@ -144,14 +144,14 @@ RegisterNetEvent('spy-bodycam:server:ReqDecoyPed', function(cid, pedCoords)
 end)
 
 Citizen.CreateThread(function()
-    if Config.Framework == 'qb' then
+    if Config.Dependency.UseInventory == 'qb' then
         QBCore.Functions.CreateUseableItem('bodycam', function(source, item)
             TriggerClientEvent('spy-bodycam:bodycamstatus',source)
         end)
         QBCore.Functions.CreateUseableItem('dashcam', function(source, item)
             TriggerClientEvent('spy-bodycam:toggleCarCam',source)
         end)
-    else
+    elseif Config.Dependency.UseInventory == 'esx' then
         ESX.RegisterUsableItem('bodycam', function(playerId) 
             TriggerClientEvent('spy-bodycam:bodycamstatus', playerId) 
         end)
